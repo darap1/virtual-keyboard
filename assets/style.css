@@ -1,0 +1,75 @@
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-top: 50px;
+    width: auto;
+    height: 100%;
+    background-color: rgba(209, 202, 202, 0.205);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.text{
+    width: 800px;
+    height: 200px;
+    margin-top: 50px;
+}
+
+.keyboard{
+    height: 270px;
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    border: 2px black solid;
+    border-radius: 5px;
+}
+.k-key{
+    display: flex;
+    width: 45px;
+    height: 35px;
+    border: 2px solid rgb(53, 51, 49);
+    justify-content:space-around;
+    align-items: center;
+    margin: 4px 4px 4px 4px;
+    border-radius: 4px;
+    transition: All 0.5s ease;
+}
+
+.k-key:hover{
+    background-color:#c8ee6998;
+}
+
+.fiveRowKeys,.firstRowKeys,.fourRowKeys,.secondRowKeys,.thirdRowKeys{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.backspace{
+    width: 120px;
+}
+.rightCtrl,.rightAlt,.leftCtrl,.leftAlt,.win,.del,.arrowDown,.arrowUp,.arrowRight,.arrowLeft,.leftShift,.shiftRight,.enter,.tab,.del,.capsLock,.backspace{
+    background-color: rgba(169, 169, 169, 0.507);
+}
+.space{
+    width: 362px;
+    
+}
+.leftShift,.capsLock,.enter,.shiftRight{
+    width: 100px;
+}
+.active{
+    border-radius: 20px;
+    transition: All 0.5s ease;
+    background-color: #42580496;
+}
