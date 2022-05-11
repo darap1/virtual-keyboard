@@ -116,14 +116,15 @@ body.addEventListener("keydown", event => {
 
 document.onkeyup = function(event){
     document.querySelectorAll('.k-key').forEach(function(element){
-        if(element.innerHTML===bukva){
+        if(element.innerHTML===bukva&&element.innerHTML.length<2){
             console.log(bukva);
-            element.classList.add('active');  
-            window.setTimeout(()=>element.classList.remove('active'), 200); 
             document.getElementById('text').value +=element.innerHTML;
         }
-        if(bukva==='Backspace'){
-            document.getElementById('text').value = document.getElementById('text').value.substring(document.getElementById('text').value.length, 1);
+        if(element.innerHTML===bukva&&element.innerHTML==='Backspace'){
+            console.log(document.getElementById('text').value);
+            element.classList.add('active');  
+            window.setTimeout(()=>element.classList.remove('active'), 200); 
+            document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);
         }
     }) 
 }
@@ -132,6 +133,8 @@ document.onclick = function(event){
     console.log(event.target);
     if(event.target.className==='k-key' || event.target.className==='k-key arrow'){
         document.getElementById('text').value +=event.path[0].innerHTML;}
+        if(event.target.className==='k-key backspace'){
+            document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);}
 }
    
     
