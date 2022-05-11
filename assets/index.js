@@ -44,6 +44,8 @@ keys.append(fiveRowKeys);
 let text = document.createElement('textarea');
 text.className = "text";
 text.id ="text";
+text.autofocus =true;
+//text.readOnly =true;
 div.prepend(text);
 
 
@@ -53,8 +55,11 @@ div.prepend(text);
 
 function init (){
     let out ='';
+    let lowerCase = function(a){
+       return String.fromCharCode(a).toLowerCase();
+    }
     for(let i=0;i<firstRow.length;i++){
-        out+='<div class ="k-key">'+String.fromCharCode(firstRow[i])+'</div>';
+        out+='<div class ="k-key">'+lowerCase(firstRow[i])+'</div>';
     }out+='<div class ="k-key backspace">Backspace</div>';
     document.querySelector('#firstRowKeys').innerHTML=out;
 
@@ -62,8 +67,8 @@ function init (){
         out2+='<div class ="k-key tab">Tab</div>';
     for(let i=0;i<secondRow.length;i++){
         
-        out2+='<div class ="k-key">'+String.fromCharCode(secondRow[i])+'</div>';
-    }out2+='<div class ="k-key del">Del</div>';
+        out2+='<div class ="k-key">'+lowerCase(secondRow[i])+'</div>';
+    }//out2+='<div class ="k-key del">Del</div>';
     document.querySelector('#secondRowKeys').innerHTML=out2;
 
         let out3 ='';
@@ -73,25 +78,25 @@ function init (){
     }out3+='<div class ="k-key enter">Enter</div>';
     document.querySelector('#thirdRowKeys').innerHTML=out3;
         let out4 ='';
-        out4+='<div class ="k-key leftShift">Shift</div>';
+        out4+='<div class ="k-key shift">Shift</div>';
     for(let i=0;i<fourRow.length;i++){
         out4+='<div class ="k-key">'+String.fromCharCode(fourRow[i])+'</div>';
     }  
         out4+='<div class ="k-key arrow">↑</div>';
-        out4+='<div class ="k-key shiftRight">Shift</div>';
+        out4+='<div class ="k-key shift">Shift</div>';
     document.querySelector('#fourRowKeys').innerHTML=out4;
         let out5 ='';
-        out5+='<div class ="k-key leftCtrl">Ctrl</div>';
+        out5+='<div class ="k-key ctrl">Ctrl</div>';
         out5+='<div class ="k-key win">Win</div>';
-        out5+='<div class ="k-key leftAlt">Alt</div>'
+        out5+='<div class ="k-key alt">Alt</div>'
     for(let i=0;i<fiveRow.length;i++){
         out5+='<div class ="k-key space">'+String.fromCharCode(fiveRow[i])+'</div>';
     }
-        out5+='<div class ="k-key rightAlt">Alt</div>'
+        out5+='<div class ="k-key alt">Alt</div>'
         out5+='<div class ="k-key arrow">←</div>';
         out5+='<div class ="k-key arrow">↓</div>';
         out5+='<div class ="k-key arrow">→</div>';
-        out5+='<div class ="k-key rightCtrl">Ctrl</div>';
+        out5+='<div class ="k-key ctrl">Ctrl</div>';
        
     document.querySelector('#fiveRowKeys').innerHTML=out5;
 }   
@@ -112,21 +117,65 @@ var body = document.querySelector("body");
 let bukva = '';
 body.addEventListener("keydown", event => {
     bukva = event.key;
+    console.log(bukva)
 });
 
-document.onkeyup = function(event){
-    document.querySelectorAll('.k-key').forEach(function(element){
-        if(element.innerHTML===bukva&&element.innerHTML.length<2){
-            console.log(bukva);
+
+
+
+document.onkeydown = function(event){
+    event.preventDefault();
+    document.querySelectorAll('.k-key').forEach(function(element){ 
+            const vstavka = function () {
             document.getElementById('text').value +=element.innerHTML;
+            element.classList.add('active');             
+}
+        switch(bukva){
+            case "ArrowUp"  :if(element.innerHTML==='↑')vstavka();break;          
+            case"ArrowDown" :if(element.innerHTML==='↓')vstavka();break;   
+            case"ArrowLeft" :if(element.innerHTML==='←')vstavka();break;
+            case"ArrowRight":if(element.innerHTML==='→')vstavka();break;       
         }
+        if(element.innerHTML===bukva&&element.innerHTML.length<2){
+          vstavka();     
+        }
+
         if(element.innerHTML===bukva&&element.innerHTML==='Backspace'){
-            console.log(document.getElementById('text').value);
             element.classList.add('active');  
-            window.setTimeout(()=>element.classList.remove('active'), 200); 
             document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);
         }
+        if(element.innerHTML===bukva&&element.innerHTML==='Enter'){
+            element.classList.add('active');  
+            document.getElementById('text').value += '\n';
+        }
+        if(element.innerHTML===bukva&&element.innerHTML==='Shift'){
+            element.classList.add('active');   
+            //смена верхнего ряда и toUpperCase TODO
+        }
+        if(element.innerHTML===bukva&&element.innerHTML==='Alt'){
+            element.classList.add('active');   
+        }
+        if(bukva==='Control'&&element.innerHTML==='Ctrl'){
+            element.classList.add('active');   
+            //смена верхнего ряда и toUpperCase TODO
+        }
+        if(bukva==='Tab'&&element.innerHTML==='Tab'){
+            event.preventDefault();
+            element.classList.add('active');  
+            text.autofocus =true;
+            document.getElementById('text').value += '    '; 
+            //смена верхнего ряда и toUpperCase TODO
+        }
+       
+        
     }) 
+}
+
+
+document.onkeyup = function(event){
+    document.querySelectorAll('.k-key').forEach(function(element){  
+        window.setTimeout(()=>element.classList.remove('active'), 200);
+    })
 }
 
 document.onclick = function(event){
@@ -135,6 +184,16 @@ document.onclick = function(event){
         document.getElementById('text').value +=event.path[0].innerHTML;}
         if(event.target.className==='k-key backspace'){
             document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);}
+           if(event.target.className==='k-key enter'){
+            document.getElementById('text').value += '\n';}
+                if(event.target.className==='k-key shift'){
+                    }
+                    if(event.target.className==='k-key ctrl'){
+                        }
+                        if(event.target.className==='k-key alt'){
+                           }
+                            if(event.target.className==='k-key tab'){
+                                document.getElementById('text').value += '    ';}
 }
    
     
