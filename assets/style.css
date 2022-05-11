@@ -10,7 +10,7 @@
     margin-top: 50px;
     width: auto;
     height: 100%;
-    background-color: rgba(209, 202, 202, 0.205);
+    background-color: rgba(158, 229, 235, 0.205);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -34,6 +34,7 @@
     gap: 4px;
     border: 2px black solid;
     border-radius: 5px;
+    background-color: beige;
 }
 .k-key{
     display: flex;
@@ -59,14 +60,13 @@
 .backspace{
     width: 120px;
 }
-.rightCtrl,.rightAlt,.leftCtrl,.leftAlt,.win,.del,.arrow,.arrowUp,.leftShift,.shiftRight,.enter,.tab,.del,.capsLock,.backspace{
+.ctrl,.rightAlt,.alt,.win,.del,.arrow,.arrowUp,.shift,.enter,.tab,.del,.capsLock,.backspace{
     background-color: rgba(169, 169, 169, 0.507);
 }
 .space{
     width: 362px;
     
-}
-.leftShift,.capsLock,.enter,.shiftRight{
+}.capsLock,.enter,.shift,.tab{
     width: 100px;
 }
 .active{
