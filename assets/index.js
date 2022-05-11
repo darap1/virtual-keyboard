@@ -48,6 +48,16 @@ text.autofocus =true;
 //text.readOnly =true;
 div.prepend(text);
 
+let h1= document.createElement('h1');
+h1.className = "h1";
+h1.innerHTML ="RSS VIRTUAL KEYBOARD"
+div.prepend(h1)
+
+let h2= document.createElement('h2');
+h2.className = "h2";
+h2.innerHTML ='Клавиатура создана в операционной системе Windows. Для переключения языка комбинация: левыe ctrl + shift'
+div.append(h2)
+
 
 
 
