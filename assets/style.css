@@ -22,6 +22,7 @@
     width: 800px;
     height: 200px;
     margin-top: 50px;
+    font-size: 20px;
 }
 
 .keyboard{
@@ -58,7 +59,7 @@
 .backspace{
     width: 120px;
 }
-.rightCtrl,.rightAlt,.leftCtrl,.leftAlt,.win,.del,.arrowDown,.arrowUp,.arrowRight,.arrowLeft,.leftShift,.shiftRight,.enter,.tab,.del,.capsLock,.backspace{
+.rightCtrl,.rightAlt,.leftCtrl,.leftAlt,.win,.del,.arrow,.arrowUp,.leftShift,.shiftRight,.enter,.tab,.del,.capsLock,.backspace{
     background-color: rgba(169, 169, 169, 0.507);
 }
 .space{

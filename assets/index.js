@@ -77,7 +77,7 @@ function init (){
     for(let i=0;i<fourRow.length;i++){
         out4+='<div class ="k-key">'+String.fromCharCode(fourRow[i])+'</div>';
     }  
-        out4+='<div class ="k-key arrowUp">↑</div>';
+        out4+='<div class ="k-key arrow">↑</div>';
         out4+='<div class ="k-key shiftRight">Shift</div>';
     document.querySelector('#fourRowKeys').innerHTML=out4;
         let out5 ='';
@@ -88,9 +88,9 @@ function init (){
         out5+='<div class ="k-key space">'+String.fromCharCode(fiveRow[i])+'</div>';
     }
         out5+='<div class ="k-key rightAlt">Alt</div>'
-        out5+='<div class ="k-key arrowLeft">←</div>';
-        out5+='<div class ="k-key arrowDown">↓</div>';
-        out5+='<div class ="k-key arrowRight">→</div>';
+        out5+='<div class ="k-key arrow">←</div>';
+        out5+='<div class ="k-key arrow">↓</div>';
+        out5+='<div class ="k-key arrow">→</div>';
         out5+='<div class ="k-key rightCtrl">Ctrl</div>';
        
     document.querySelector('#fiveRowKeys').innerHTML=out5;
@@ -127,6 +127,14 @@ document.onkeyup = function(event){
         }
     }) 
 }
+
+document.onclick = function(event){
+    console.log(event.target);
+    if(event.target.className==='k-key' || event.target.className==='k-key arrow'){
+        document.getElementById('text').value +=event.path[0].innerHTML;}
+}
+   
+    
 
 
 
