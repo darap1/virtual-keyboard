@@ -62,47 +62,78 @@ div.prepend(h1)
 
 let h2= document.createElement('h2');
 h2.className = "h2";
-h2.innerHTML ='Клавиатура создана в операционной системе Windows. Для переключения языка комбинация: левыe CTRL + SHIFT'
+h2.innerHTML ='Клавиатура создана в операционной системе Windows. Для переключения языка комбинация: левыe CTRL + ALT'
 div.append(h2)
 
 
 let bukva = '';
 let capsOn = false;
+let shiftOn = false;
+var body = document.querySelector("body");
 
+
+body.addEventListener("keydown", event => {
+    bukva = event.key; 
+    shiftOn = event.shiftKey;
+  //console.log(String.fromCharCode(event.keyCode))
+  //console.log(event)
+});
+
+let lang = localStorage.getItem('lang');
+localStorage.setItem('lang', lang);
+//console.log(localStorage.getItem('lang'))
+//console.log(navigator);
 
 function init (){
     let out ='';
     let cases = function(a){
-        if(!capsOn){
-       return String.fromCharCode(a).toLowerCase();}
-       else{return String.fromCharCode(a).toUpperCase();}
+       if(capsOn){
+       return String.fromCharCode(a).toUpperCase();}
+       if(shiftOn===true){
+        return String.fromCharCode(a).toUpperCase();
+       }
+       else{return String.fromCharCode(a).toLowerCase();}
     }
     for(let i=0;i<firstRow.length;i++){
-        out+='<div class ="k-key">'+cases(firstRow[i])+'</div>';
+        if(shiftOn){
+            out+='<div class ="k-key">'+cases(special[i])+'</div>';
+        }
+        if(lang==='ru'){
+            out+='<div class ="k-key">'+cases(one[i])+'</div>';
+        }else{
+        out+='<div class ="k-key">'+cases(firstRow[i])+'</div>';}
     }out+='<div class ="k-key backspace">Backspace</div>';
     document.querySelector('#firstRowKeys').innerHTML=out;
 
         let out2 ='';
         out2+='<div class ="k-key tab">Tab</div>';
     for(let i=0;i<secondRow.length;i++){
-        
-        out2+='<div class ="k-key">'+cases(secondRow[i])+'</div>';
+        if(lang==='ru'){
+            out2+='<div class ="k-key">'+cases(two[i])+'</div>';
+        }else{
+        out2+='<div class ="k-key">'+cases(secondRow[i])+'</div>';}
     }//out2+='<div class ="k-key del">Del</div>';
     document.querySelector('#secondRowKeys').innerHTML=out2;
 
         let out3 ='';
-        out3+='<div class ="k-key capsLock">CapsLock</div>';
+        out3+='<div class ="k-key capsLock" id= "caps">CapsLock</div>';
     for(let i=0;i<thirdRow.length;i++){
-        out3+='<div class ="k-key">'+cases(thirdRow[i])+'</div>';
+        if(lang==='ru'){
+            out3+='<div class ="k-key">'+cases(trhee[i])+'</div>';
+        }else{
+        out3+='<div class ="k-key">'+cases(thirdRow[i])+'</div>';}
     }out3+='<div class ="k-key enter">Enter</div>';
     document.querySelector('#thirdRowKeys').innerHTML=out3;
         let out4 ='';
-        out4+='<div class ="k-key shift">Shift</div>';
+        out4+='<div class ="k-key shift" id = "shift">Shift</div>';
     for(let i=0;i<fourRow.length;i++){
-        out4+='<div class ="k-key">'+cases(fourRow[i])+'</div>';
+        if(lang==='ru'){
+            out4+='<div class ="k-key">'+cases(four[i])+'</div>';
+        }else{
+        out4+='<div class ="k-key">'+cases(fourRow[i])+'</div>';}
     }  
         out4+='<div class ="k-key arrow">↑</div>';
-        out4+='<div class ="k-key shift">Shift</div>';
+        out4+='<div class ="k-key shift" >Shift</div>';
     document.querySelector('#fourRowKeys').innerHTML=out4;
         let out5 ='';
         out5+='<div class ="k-key ctrl">Ctrl</div>';
@@ -119,69 +150,59 @@ function init (){
        
     document.querySelector('#fiveRowKeys').innerHTML=out5;
 }   
-
 init();
 
 
-var body = document.querySelector("body");
+const rusLower = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+const rusUpper = rusLower.toUpperCase()
+const enLower = 'abcdefghijklmnopqrstuvwxyz'
+const enUpper = enLower.toUpperCase()
+const rus = rusLower + rusUpper
+const en = enLower + enUpper
 
-body.addEventListener("keydown", event => {
-    bukva = event.key;
-   // console.log(bukva)
-});
 
 
 document.onkeydown = function(event){
+
+   
+    if (rus.includes(bukva)) {
+        lang ='ru';
+        console.log('ru');
+        localStorage.setItem('lang', lang);
+    } if(en.includes(bukva)) {
+        lang ='eng'
+        console.log('en')
+        localStorage.setItem('lang', lang);
+    } 
+    
     event.preventDefault();
     document.querySelectorAll('.k-key').forEach(function(element){ 
-            const vstavka = function () {
-            document.getElementById('text').value +=element.innerHTML;
-            element.classList.add('active');             
-}
-        switch(bukva){
-            case "ArrowUp"  :if(element.innerHTML==='↑')vstavka();break;          
-            case"ArrowDown" :if(element.innerHTML==='↓')vstavka();break;   
-            case"ArrowLeft" :if(element.innerHTML==='←')vstavka();break;
-            case"ArrowRight":if(element.innerHTML==='→')vstavka();break;       
+            if(element.innerHTML===bukva&&element.innerHTML==='Backspace'){
+                element.classList.add('active');  
+                document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);
+            }
+             if(bukva==='CapsLock'&&element.innerHTML==='CapsLock'){
+                 if (capsOn === true){capsOn= false}else{capsOn=true}    
+             }
+        }) 
+        init();
+        if(capsOn){
+        let caps = document.getElementById('caps');
+        caps.classList.add('active');
         }
-        if(element.innerHTML.toLowerCase()===bukva.toLowerCase()&&element.innerHTML.length<2){
-          vstavka();     
+        if(shiftOn){
+            let caps = document.getElementById('shift');
+            caps.classList.add('active');
+            if(event.altKey===true){
+               if(lang==='eng'){
+                   lang='ru'
+               }else{lang='eng'}
+               localStorage.setItem('lang', lang);
+            }
         }
-
-        if(element.innerHTML===bukva&&element.innerHTML==='Backspace'){
-            element.classList.add('active');  
-            document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);
-        }
-        if(element.innerHTML===bukva&&element.innerHTML==='Enter'){
-            element.classList.add('active');  
-            document.getElementById('text').value += '\n';
-        }
-        if(element.innerHTML===bukva&&element.innerHTML==='Shift'){
-            element.classList.add('active');   
-            //смена верхнего ряда и toUpperCase TODO
-        }
-        if(element.innerHTML===bukva&&element.innerHTML==='Alt'){
-            element.classList.add('active');   
-        }
-        if(bukva==='Control'&&element.innerHTML==='Ctrl'){
-            element.classList.add('active');   
-            //смена верхнего ряда и toUpperCase TODO
-        }
-        if(bukva==='Tab'&&element.innerHTML==='Tab'){
-            event.preventDefault();
-            element.classList.add('active');  
-            text.autofocus =true;
-            document.getElementById('text').value += '    '; 
-            //смена верхнего ряда и toUpperCase TODO
-        }
-        if(bukva==='CapsLock'&&element.innerHTML==='CapsLock'){
-            if (capsOn === true){capsOn= false}else{capsOn=true}
-           init();
-            
-        }
-       
         
-    }) 
+       
+      
 }
 
 
@@ -189,6 +210,53 @@ document.onkeyup = function(event){
     document.querySelectorAll('.k-key').forEach(function(element){  
         if(bukva!=='СapsLock'&&element.innerHTML!=='CapsLock'){
         window.setTimeout(()=>element.classList.remove('active'), 200);}
+
+        const vstavka = function () {
+            document.getElementById('text').value +=element.innerHTML;
+            element.classList.add('active');}
+
+            switch(bukva){
+                case "ArrowUp"  :if(element.innerHTML==='↑')vstavka();break;          
+                case"ArrowDown" :if(element.innerHTML==='↓')vstavka();break;   
+                case"ArrowLeft" :if(element.innerHTML==='←')vstavka();break;
+                case"ArrowRight":if(element.innerHTML==='→')vstavka();break;       
+            }
+            if(element.innerHTML.toLowerCase()===bukva.toLowerCase()&&element.innerHTML.length<2){
+              vstavka();     
+            }
+    
+            if(element.innerHTML===bukva&&element.innerHTML==='Enter'){
+                element.classList.add('active');  
+                document.getElementById('text').value += '\n';
+            }
+
+            if(element.innerHTML===bukva&&element.innerHTML==='Alt'){
+                element.classList.add('active');   
+            }
+            if(bukva==='Control'&&element.innerHTML==='Ctrl'){
+                element.classList.add('active');   
+                
+                //смена верхнего ряда и toUpperCase TODO
+            }
+            if(bukva==='Tab'&&element.innerHTML==='Tab'){
+                event.preventDefault();
+                element.classList.add('active');  
+                text.autofocus =true;
+                document.getElementById('text').value += '    '; 
+                //смена верхнего ряда и toUpperCase TODO
+            }
+            if(bukva==='Meta'&&element.innerHTML==='Win'){
+                element.classList.add('active')
+                console.log('da')
+             }
+
+            if(shiftOn===true&&element.innerHTML==='Shift'){
+                element.classList.add('active');
+                shiftOn=false;
+                init();
+              //  console.log(shiftOn)
+            }
+
         if(bukva==='CapsLock'&&element.innerHTML==='CapsLock'){
             event.preventDefault();
             if(!capsOn){
@@ -206,7 +274,7 @@ document.onclick = function(event){
             document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);}
            if(event.target.className==='k-key enter'){
             document.getElementById('text').value += '\n';}
-                if(event.target.className==='k-key shift'){
+                if(event.target.className==='k-key shift'){   
                     }
                     if(event.target.className==='k-key ctrl'){
                         }
@@ -219,8 +287,6 @@ document.onclick = function(event){
                                     init();
                                 }
 }
-   
-
 
 
 
