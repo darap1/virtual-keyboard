@@ -58,7 +58,7 @@ div.prepend(h1)
 
 let h2= document.createElement('h2');
 h2.className = "h2";
-h2.innerHTML ='Клавиатура создана в операционной системе Windows. Для переключения языка комбинация: левыe CTRL + ALT'
+h2.innerHTML ='Клавиатура создана в операционной системе Windows. Для переключения языка комбинация: левыe SHIFT + ALT'
 div.append(h2)
 let h3= document.createElement('h3');
 h3.className = "h3";
