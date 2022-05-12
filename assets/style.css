@@ -86,6 +86,6 @@ h1,h2{
 
 .k-key:active { /* Добавляем псевдокласс :active */
     border-radius: 30px;
-    transition: All 0.2s ease;
+    transition: All 0.1s ease;
     background-color: #42580496;
     }

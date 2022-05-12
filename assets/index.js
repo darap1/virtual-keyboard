@@ -4,15 +4,12 @@ let secondRow = [113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 92];
 let thirdRow = [97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39];
 let fourRow = [122, 120, 99, 118, 98, 110, 109, 44, 46, 47];
 let fiveRow = [32];
-
 let one = [1105, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61];
 let two = [1081, 1094, 1091, 1082, 1077, 1085, 1075, 1096, 1097, 1079, 1093, 1098, 92];
 let trhee = [1092, 1099, 1074, 1072, 1087, 1088, 1086, 1083, 1076, 1078, 1101];
 let four = [1103, 1095, 1089, 1084, 1080, 1090, 1100, 1073, 1102, 46];
 let five = [32];
-
 let special = [126, 33, 64, 35, 36, 37, 94, 38, 42, 40, 41, 95, 43];
-
 
 let div = document.createElement('div');
 div.className = "container";
@@ -52,7 +49,6 @@ let text = document.createElement('textarea');
 text.className = "text";
 text.id ="text";
 text.autofocus =true;
-//text.readOnly =true;
 div.prepend(text);
 
 let h1= document.createElement('h1');
@@ -65,24 +61,18 @@ h2.className = "h2";
 h2.innerHTML ='Клавиатура создана в операционной системе Windows. Для переключения языка комбинация: левыe CTRL + ALT'
 div.append(h2)
 
-
 let bukva = '';
 let capsOn = false;
 let shiftOn = false;
 var body = document.querySelector("body");
-
-
 body.addEventListener("keydown", event => {
     bukva = event.key; 
     shiftOn = event.shiftKey;
-  //console.log(String.fromCharCode(event.keyCode))
-  //console.log(event)
+  
 });
 
 let lang = localStorage.getItem('lang');
 localStorage.setItem('lang', lang);
-//console.log(localStorage.getItem('lang'))
-//console.log(navigator);
 
 function init (){
     let out ='';
@@ -111,7 +101,7 @@ function init (){
             out2+='<div class ="k-key">'+cases(two[i])+'</div>';
         }else{
         out2+='<div class ="k-key">'+cases(secondRow[i])+'</div>';}
-    }//out2+='<div class ="k-key del">Del</div>';
+    }
     document.querySelector('#secondRowKeys').innerHTML=out2;
 
         let out3 ='';
@@ -151,7 +141,6 @@ function init (){
 }   
 init();
 
-
 const rusLower = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
 const rusUpper = rusLower.toUpperCase()
 const enLower = 'abcdefghijklmnopqrstuvwxyz'
@@ -159,11 +148,7 @@ const enUpper = enLower.toUpperCase()
 const rus = rusLower + rusUpper
 const en = enLower + enUpper
 
-
-
 document.onkeydown = function(event){
-
-   
     if (rus.includes(bukva)) {
         lang ='ru';
         console.log('ru');
@@ -173,9 +158,20 @@ document.onkeydown = function(event){
         console.log('en')
         localStorage.setItem('lang', lang);
     } 
-    
     event.preventDefault();
     document.querySelectorAll('.k-key').forEach(function(element){ 
+        const vstavka = function () {
+            document.getElementById('text').value +=element.innerHTML;
+            element.classList.add('active');}
+            switch(bukva){
+                case "ArrowUp"  :if(element.innerHTML==='↑')vstavka();break;          
+                case"ArrowDown" :if(element.innerHTML==='↓')vstavka();break;   
+                case"ArrowLeft" :if(element.innerHTML==='←')vstavka();break;
+                case"ArrowRight":if(element.innerHTML==='→')vstavka();break;       
+            }
+            if(element.innerHTML.toLowerCase()===bukva.toLowerCase()&&element.innerHTML.length<2){
+              vstavka();     
+            }
             if(element.innerHTML===bukva&&element.innerHTML==='Backspace'){
                 element.classList.add('active');  
                 document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);
@@ -199,50 +195,29 @@ document.onkeydown = function(event){
                localStorage.setItem('lang', lang);
             }
         }
-        
-       
-      
 }
 
 
 document.onkeyup = function(event){
     document.querySelectorAll('.k-key').forEach(function(element){  
         if(bukva!=='СapsLock'&&element.innerHTML!=='CapsLock'){
-        window.setTimeout(()=>element.classList.remove('active'), 200);}
-
-        const vstavka = function () {
-            document.getElementById('text').value +=element.innerHTML;
-            element.classList.add('active');}
-
-            switch(bukva){
-                case "ArrowUp"  :if(element.innerHTML==='↑')vstavka();break;          
-                case"ArrowDown" :if(element.innerHTML==='↓')vstavka();break;   
-                case"ArrowLeft" :if(element.innerHTML==='←')vstavka();break;
-                case"ArrowRight":if(element.innerHTML==='→')vstavka();break;       
-            }
-            if(element.innerHTML.toLowerCase()===bukva.toLowerCase()&&element.innerHTML.length<2){
-              vstavka();     
-            }
-    
+            if(element.shiftKey===false){
+        window.setTimeout(()=>element.classList.remove('active'), 200);}}
             if(element.innerHTML===bukva&&element.innerHTML==='Enter'){
                 element.classList.add('active');  
                 document.getElementById('text').value += '\n';
             }
-
             if(element.innerHTML===bukva&&element.innerHTML==='Alt'){
                 element.classList.add('active');   
             }
             if(bukva==='Control'&&element.innerHTML==='Ctrl'){
                 element.classList.add('active');   
-                
-                //смена верхнего ряда и toUpperCase TODO
             }
             if(bukva==='Tab'&&element.innerHTML==='Tab'){
                 event.preventDefault();
                 element.classList.add('active');  
                 text.autofocus =true;
                 document.getElementById('text').value += '    '; 
-                //смена верхнего ряда и toUpperCase TODO
             }
             if(bukva==='Meta'&&element.innerHTML==='Win'){
                 element.classList.add('active')
@@ -253,9 +228,7 @@ document.onkeyup = function(event){
                 element.classList.add('active');
                 shiftOn=false;
                 init();
-              //  console.log(shiftOn)
             }
-
         if(bukva==='CapsLock'&&element.innerHTML==='CapsLock'){
             event.preventDefault();
             if(!capsOn){
@@ -273,9 +246,11 @@ document.onclick = function(event){
             document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);}
            if(event.target.className==='k-key enter'){
             document.getElementById('text').value += '\n';}
-                if(event.target.className==='k-key shift'){   
+                if(event.target.className==='k-key shift'){                     
                     }
-                    if(event.target.className==='k-key ctrl'){
+                    if(event.target.className==='k-key space'){
+                        document.getElementById('text').value +=' ';
+                        text.focus = true;
                         }
                         if(event.target.className==='k-key alt'){
                            }
@@ -285,6 +260,21 @@ document.onclick = function(event){
                                     if (capsOn === true){capsOn= false}else{capsOn=true}
                                     init();
                                 }
+}
+
+document.onmousedown = function(event){
+    console.log(event.target)
+    if(event.target.className==='k-key shift'){ 
+        shiftOn=true;
+        init();  
+        }
+}
+
+document.onmouseup = function(event){
+    if(event.target.className==='k-key shift'){ 
+        shiftOn=false;
+        init();  
+        }
 }
 
 
