@@ -97,8 +97,7 @@ function init (){
     for(let i=0;i<firstRow.length;i++){
         if(shiftOn){
             out+='<div class ="k-key">'+cases(special[i])+'</div>';
-        }
-        if(lang==='ru'){
+        }else if(lang==='ru'){
             out+='<div class ="k-key">'+cases(one[i])+'</div>';
         }else{
         out+='<div class ="k-key">'+cases(firstRow[i])+'</div>';}
