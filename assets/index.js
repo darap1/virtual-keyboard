@@ -60,6 +60,10 @@ let h2= document.createElement('h2');
 h2.className = "h2";
 h2.innerHTML ='Клавиатура создана в операционной системе Windows. Для переключения языка комбинация: левыe CTRL + ALT'
 div.append(h2)
+let h3= document.createElement('h3');
+h3.className = "h3";
+h3.innerHTML =`Ссылка на pull request : https://github.com/darap1/virtual-keyboard/pull/5`
+div.append(h3)
 
 let bukva = '';
 let capsOn = false;
@@ -160,18 +164,6 @@ document.onkeydown = function(event){
     } 
     event.preventDefault();
     document.querySelectorAll('.k-key').forEach(function(element){ 
-        const vstavka = function () {
-            document.getElementById('text').value +=element.innerHTML;
-            element.classList.add('active');}
-            switch(bukva){
-                case "ArrowUp"  :if(element.innerHTML==='↑')vstavka();break;          
-                case"ArrowDown" :if(element.innerHTML==='↓')vstavka();break;   
-                case"ArrowLeft" :if(element.innerHTML==='←')vstavka();break;
-                case"ArrowRight":if(element.innerHTML==='→')vstavka();break;       
-            }
-            if(element.innerHTML.toLowerCase()===bukva.toLowerCase()&&element.innerHTML.length<2){
-              vstavka();     
-            }
             if(element.innerHTML===bukva&&element.innerHTML==='Backspace'){
                 element.classList.add('active');  
                 document.getElementById('text').value = document.getElementById('text').value.slice(0,-1);
@@ -201,12 +193,23 @@ document.onkeydown = function(event){
 document.onkeyup = function(event){
     document.querySelectorAll('.k-key').forEach(function(element){  
         if(bukva!=='СapsLock'&&element.innerHTML!=='CapsLock'){
-            if(element.shiftKey===false){
-        window.setTimeout(()=>element.classList.remove('active'), 200);}}
+        window.setTimeout(()=>element.classList.remove('active'), 200);}
             if(element.innerHTML===bukva&&element.innerHTML==='Enter'){
                 element.classList.add('active');  
                 document.getElementById('text').value += '\n';
             }
+            const vstavka = function () {
+                document.getElementById('text').value +=element.innerHTML;
+                element.classList.add('active');}
+                switch(bukva){
+                    case "ArrowUp"  :if(element.innerHTML==='↑')vstavka();break;          
+                    case"ArrowDown" :if(element.innerHTML==='↓')vstavka();break;   
+                    case"ArrowLeft" :if(element.innerHTML==='←')vstavka();break;
+                    case"ArrowRight":if(element.innerHTML==='→')vstavka();break;       
+                }
+                if(element.innerHTML.toLowerCase()===bukva.toLowerCase()&&element.innerHTML.length<2){
+                  vstavka();     
+                }
             if(element.innerHTML===bukva&&element.innerHTML==='Alt'){
                 element.classList.add('active');   
             }
@@ -215,7 +218,7 @@ document.onkeyup = function(event){
             }
             if(bukva==='Tab'&&element.innerHTML==='Tab'){
                 event.preventDefault();
-                element.classList.add('active');  
+                element.classList.toggle('active');  
                 text.autofocus =true;
                 document.getElementById('text').value += '    '; 
             }
